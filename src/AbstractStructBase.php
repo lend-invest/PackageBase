@@ -102,6 +102,7 @@ abstract class AbstractStructBase implements StructInterface, JsonSerializable
      *
      * @return self
      */
+    #[\ReturnTypeWillChange]
     public function wrap(): mixed
     {
         foreach ($this->jsonSerialize() as $name => $value) {

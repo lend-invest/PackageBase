@@ -311,6 +311,7 @@ abstract class AbstractStructArrayBase extends AbstractStructBase implements Str
      *
      * @return self
      */
+    #[\ReturnTypeWillChange]
     public function wrap(): mixed
     {
         // init array
