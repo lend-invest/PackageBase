@@ -57,6 +57,21 @@ abstract class AbstractStructBase implements StructInterface, JsonSerializable
     }
 
     /**
+     * Generic method setting value (bypassing setter validation)
+     * @throws InvalidArgumentException
+     * @param string $name property name to set
+     * @param mixed $value property value to use
+     * @return self
+     * @internal
+     */
+    public function setPropertyValueDirect(string $name, $value): self
+    {
+        $this->{$name} = $value;
+
+        return $this;
+    }
+
+    /**
      * Generic method getting value
      * @throws InvalidArgumentException
      * @param string $name property name to get
@@ -80,5 +95,21 @@ abstract class AbstractStructBase implements StructInterface, JsonSerializable
     public function __toString(): string
     {
         return get_called_class();
+    }
+
+    /**
+     * Stucts with inheritance are wrapped into SoapVar object to declare the type of the object
+     *
+     * @return self
+     */
+    #[\ReturnTypeWillChange]
+    public function wrap(): mixed
+    {
+        foreach ($this->jsonSerialize() as $name => $value) {
+            if ($value instanceof StructInterface) {
+                $this->setPropertyValueDirect($name, $value->wrap());
+            }
+        }
+        return $this;
     }
 }

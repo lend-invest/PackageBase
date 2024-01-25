@@ -305,4 +305,37 @@ abstract class AbstractStructArrayBase extends AbstractStructBase implements Str
 
         return $this;
     }
+
+    /**
+     * Wrap each item in the collection
+     *
+     * @return self
+     */
+    #[\ReturnTypeWillChange]
+    public function wrap(): mixed
+    {
+        // init array
+        if (!is_array($this->getPropertyValue($this->getAttributeName()))) {
+            $this->setPropertyValue($this->getAttributeName(), []);
+        }
+
+        // current array
+        $currentArray = $this->getPropertyValue($this->getAttributeName());
+        if (is_array($currentArray)) {
+            // Wrap the array
+            $wrappedArray = array_map(
+                function ($item) {
+                    return $item instanceof AbstractStructBase ? $item->wrap() : $item;
+                },
+                $currentArray
+            );
+
+            $this
+                ->setInternArray($wrappedArray)
+                ->setInternArrayIsArray(true)
+                ->setInternArrayOffset(0)
+                ->setPropertyValueDirect($this->getAttributeName(), $wrappedArray);
+        }
+        return $this;
+    }
 }
