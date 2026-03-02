@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## 5.0.5 - 2026/02/07
+Thanks AI for 😄:
+- update Dockerfile
+- update docker-compose
+- create Makefile
+
+Update code with:
+- CS Fixer
+- Rector
+
+## 5.0.4 - 2024/02/05
+- PR #51 - Fix overriding the custom SoapClient class
+
 ## 5.0.3 - 2023/02/09
 - PR #38 - type checking exception raised in php8
 
